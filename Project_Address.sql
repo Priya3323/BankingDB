@@ -113,4 +113,60 @@ insert into simple_123(remarks) values ("Good Morning"), ("How are you");
 
 
 select now();
-select date_add(now(),interval 30 day);
+select date_add(now(),interval 30 day); #can be used to give end deadline
+
+select*from emp;
+alter table emp  add Title varchar(4);
+update emp set title ="Mr.";
+update emp set title ="Mrs." where gender = "Female";
+update emp set salary = 55000 where FullName = "Mary Smith";
+delete from emp where EmployeeId = 1010;
+
+#Sorting in SQL
+select*from emp order by Salary desc;
+select*from emp order by FullName desc;
+select*from emp order by Salary;
+
+-- 4 clauses in SQL
+-- W G H O --
+
+
+# Limit Command
+select*from emp order by Salary limit 3;
+select*from emp limit 3;
+select*from emp limit 5,3; #first number (5) is skipping first records and called offset and second number (3) is called limit which means it gives next 3 numbers
+select*from emp limit 3 offset 5;
+
+# for even and odd
+select*from emp where employeeid %2=0;
+
+select fullname, salary, (Salary*0.05) as Bonus from emp;
+select max(salary) from emp;
+select min(salary) from emp;
+select avg(salary) from emp;
+
+#Null command (total empty
+select*from projects;
+select*from projects where employeeid is null;
+select*from projects where employeeid is not null;
+
+#groupby command
+select*from emp;
+select dept, count(dept) from emp group by dept;
+select dept, count(*) from emp group by dept;
+select gender, count(*) from emp group by gender;
+select dept, sum(salary) from emp group by dept;
+select dept, avg(salary) from emp group by dept;
+
+
+select dept, avg(age) from emp group by dept;
+select dept, truncate(avg(age),0) from emp group by dept;
+
+#Truncate function
+select truncate(123.45345,2);
+select truncate(123.45345,0);
+select truncate(123.45345,-1);
+select truncate(123.45345,-3);
+select truncate(123.45345,-2);
+
+
