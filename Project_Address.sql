@@ -157,6 +157,28 @@ select dept, count(*) from emp group by dept;
 select gender, count(*) from emp group by gender;
 select dept, sum(salary) from emp group by dept;
 select dept, avg(salary) from emp group by dept;
+#Group by using having clause
+
+select dept, count(*) from emp group by dept having count(*)>2; #Having works on the result of group by (doing filtering on group by result)
+select dept, count(*) from emp group by dept having dept="it";
+
+select gender, sum(salary) from emp
+group by gender having sum(salary)>200000;
+
+select*from Address;
+select state, count(*) from address group by state; #Statewise employees in address table 
+select city, count(*) from address group by city;
+select city, count(*) from address group by city having count(*)>1;
+
+select*from projects;
+select datediff(enddate,startdate) as duration from projects;
+select datediff(enddate,startdate) as duration, count(*) from projects
+group by datediff(enddate,startdate);
+select datediff(enddate,startdate) as duration, count(*) from projects
+group by datediff(enddate,startdate) having count(*)>=2;
+
+
+
 
 
 select dept, avg(age) from emp group by dept;
@@ -169,4 +191,30 @@ select truncate(123.45345,-1);
 select truncate(123.45345,-3);
 select truncate(123.45345,-2);
 
+select distinct gender from emp; #used to find distinct values
+select distinct dept, gender from emp;
+select distinct gender, dept from emp;
 
+#NOT in Operator
+select*from emp where age not in (23,28); # IT will give the all the ages are not 23 and 28
+select*from emp where employeeId not IN (1006, 1008);
+#Between Operator
+select*from emp where salary between 40000 and 60000; 
+select*from emp where age between 26 and 28; 
+
+#IN OPERATOR
+select*from emp where age IN (26, 28); #SHOW ME ALL THE EMPLOYEES WHERE AGE IS EITHER 25 OR 28
+
+#Like and not like Operator
+select * from emp where fullname like "P%" ;
+select * from emp where fullname like "%Y" ;
+select * from emp where fullname like "%i%" ;
+select * from emp where fullname like "_i%" ;
+select * from emp where fullname like "__u%" ;
+select * from emp where fullname like "%n__" ;
+select * from emp where fullname not like "%n___" ;
+
+
+#Null in SQL
+select*from projects;
+select*from projects where employeeid is not null;
