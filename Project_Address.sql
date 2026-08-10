@@ -177,6 +177,9 @@ group by datediff(enddate,startdate);
 select datediff(enddate,startdate) as duration, count(*) from projects
 group by datediff(enddate,startdate) having count(*)>=2;
 
+#where clause
+select datediff(enddate,startdate) as duration, count(*) from projects where employeeId>1004
+group by datediff(enddate,startdate) having count(*)>=2;
 
 
 
@@ -218,3 +221,113 @@ select * from emp where fullname not like "%n___" ;
 #Null in SQL
 select*from projects;
 select*from projects where employeeid is not null;
+
+
+#every table has only one primary key if there are 3 columns in a table which is unique and not null still sql consider first one as primary key by default
+create table table2 (ID1 int unique not null,
+ID2 int unique not null,
+ID3 int unique not null);
+desc table2;
+
+#Check Constraint
+create table voter_list (voter_ID int, Name varchar(100), age int check(age>=18));
+desc voter_list;
+select*from voter_list;
+drop table voter_list;
+insert into voter_list values (20067,"Anuja Patil", 16);
+insert into voter_list values (20067,"Anuja Patil", 19);
+
+#Default constraint
+create table voter
+(name varchar (10),
+age int check (age>=18),
+email varchar (20) default "dummy@gmail.com");
+select *from voter;
+insert into voter values
+("sachin",18);
+desc voter;
+
+select*from projects where employeeId is null;
+select*from projects where employeeId is not null;
+
+#string function in SQL
+#1. Concat
+select*, concat(fullname, "-", employeeid) as Specific_code from emp;
+
+#2. Lower 
+select fullname, lower(fullname) from emp;
+#3. Upper 
+select fullname, upper(fullname) from emp;
+
+#.4 Replace, it replaces just to display does not make any changes in actual table, if we want to make the changes we need touse update statement
+select fullname, replace(fullname,"Mohanty","Kulkarni") as New_Name from emp;
+
+update emp set fullname= "Sambit Kulkarni" where employeeid=1008;
+ update emp set fullname= "Anurag Kulkarni" where employeeid=1006;
+ select*from emp;
+ 
+#5. Length Function
+select length('Good Morning');
+select fullname, length(fullname) as charactercount from emp;
+
+#6. SUbstring
+select substring("Mary Smith",2,3);
+select fullname, substring(fullname,2,3) as partiall,
+length(substring(fullname,2,3)) as length from emp;
+
+#rtrim and rtrim and trim function
+#--trim remove the spaces from both left and right, rtrim will do from right and ltrim will do from left
+
+#Reverse function
+select fullname, reverse(fullname) from emp;
+select reverse("Priyanka");
+
+#Maths Function
+#1. Absolute function just give the actual unsigned whole number, (removing any signs)
+select abs(-4352);
+select abs(datediff(startdate, enddate)) as duration from projects;
+
+#2. Modulus mod()- returns the reminder of the division
+select mod(12,7);
+
+#3. Floor and ceiling function {floor is lowest value of a decimal integer and ceiling is the highest value)
+select floor(12.4);
+select ceiling(14.9);
+
+#4. Truncate function{it is a math function diff from actual truncate function}
+select truncate(1434.5365752,-3); #as we move in negative direction it will be making zero as per the given condition
+select exp(2);
+
+select power(3,3); #power can be written as pow() as well, 
+select sqrt(169); #find square root of values
+
+#date function
+select curdate(); #gives today's date
+select now(); #give today's date along with time, in sql date format is always like "yyyy-mm-dd"
+select sysdate();
+
+#lastday() suggest last date of month
+select last_day(now()); #give last date of month as per the date given
+select last_day("2026-02-22");
+
+#date_format
+select date_format(now(),"%b"); #%b means shortcut of month
+select date_format(now(),"%M"); #%M means full month
+select date_format(now(),"%y"); # %y in lower case give last two digits
+select date_format(now(),"%Y"); #%Y in upper give full year
+select date_format(now(),"%a %D-%b"); 
+select date_format(now(),"%j");
+select date_format(now(),"%D-%M %Y"); 
+select date_format("2028-08-15","%D-%M-%Y, %W") as Date; 
+select abs(datediff("2001-08-15",now())) as Days;
+
+select month(now());
+select year(now());
+
+#Aggreate function
+select avg(salary) from emp where dept="IT"; #for average we use average
+select count(*) from emp;
+select max(salary) from emp where gender = 'male';
+select min(salary) from emp where gender = 'male';
+select avg(salary) from emp where gender = 'male';
+select count(salary) from emp where gender = 'male';
