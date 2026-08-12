@@ -320,6 +320,8 @@ select date_format(now(),"%j");
 select date_format(now(),"%D-%M %Y"); 
 select date_format("2028-08-15","%D-%M-%Y, %W") as Date; 
 select abs(datediff("2001-08-15",now())) as Days;
+select abs(datediff("1998-09-20",now())) as Days;
+select abs(datediff("2005-08-16",now())) as Days;
 
 select month(now());
 select year(now());
@@ -331,3 +333,60 @@ select max(salary) from emp where gender = 'male';
 select min(salary) from emp where gender = 'male';
 select avg(salary) from emp where gender = 'male';
 select count(salary) from emp where gender = 'male';
+
+#Joins
+#Need the record of all employee with their ID's and city
+show tables;
+select*from employee;
+select employee.employeeid, fullname, city from employee 
+left join
+address
+on employee.employeeid=address.employeeid;
+
+#Project Name and city
+select projects.employeeid, projectname, city from projects
+left join
+address
+on projects.employeeid=address.employeeid;
+
+#using right join (#Need the record of all employee with their ID's and city)
+select employee.employeeid, fullname, city from address
+right join
+employee on employee.employeeid=address.employeeid;
+
+#Full name, ID, ProjectName, duration
+select employee.employeeid, fullname, Projectname, abs(datediff(startdate,enddate)) as duration from employee
+left join
+projects on employee.employeeid=projects.employeeid;
+
+#we can also join more than 2 tables in mysql 
+select fullname, Projectname, state from employee as E
+left join
+projects as P on E.employeeid=P.employeeid
+left join
+address as A
+on
+A.employeeid=E.employeeid;
+#Outer Join {Union and Union All)
+
+#Subqueries: Single row subquery
+ select fullname, department from employee
+ where department = (select department from employee where employeeid=1001);
+
+select fullname, age from employee
+ where age = (select age from employee where employeeid=1003); #show the list of employee whose age is similar as employee id 1003
+ 
+ #show the project name with the duration same as employee id 1004
+ 
+ select projectname, abs(datediff(startdate,enddate)) as duration from projects
+ where abs(datediff(startdate,enddate)) = (select abs(datediff(startdate,enddate)) from projects where employeeid=1004);
+ 
+select max(salary) from employee;
+
+select fullname, salary, employeeid from employee where salary=(select max(salary) from employee);
+
+#to find the second highest/lowest value means we have to use two subqueries
+select fullname, salary from employee 
+where salary= (select max(salary) from employee where salary<(select max(salary) from employee));
+
+
