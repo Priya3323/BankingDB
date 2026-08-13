@@ -389,4 +389,34 @@ select fullname, salary, employeeid from employee where salary=(select max(salar
 select fullname, salary from employee 
 where salary= (select max(salary) from employee where salary<(select max(salary) from employee));
 
+#Multiple row subquery using In operator
+select * from employee;
+select fullname, Salary from employee where fullname = "Mary Smith" or fullname = "James Brown";
+#we can't use = or less or grater than signs , we have to use in, any, or, and, not, any, like operators
 
+select fullname, Salary from employee where 
+salary in(select Salary from employee where fullname = "Mary Smith" or fullname = "James Brown")
+and fullname not in ("Mary Smith","James Brown");
+
+#subquery with any 
+
+#find the names of all employee whose age is either less than anurag or mary smith using subquery with any
+select fullname, age from employee 
+where age<any(select age from employee where fullname = "Mary Smith" or fullname = "Anurag Mohanty");
+
+#find the names of all employee whose age is either less than anurag or mary smith using or
+select*from employee
+where
+age<(select age from employee where fullname = "Mary Smith")
+or age<(select age from employee where fullname = "Anurag Mohanty");
+
+
+#All
+select fullname, age from employee
+where age<all(select age from employee where fullname in ("Mary Smith" ,"James Brown"));
+
+
+select*from employee
+where
+age<(select age from employee where fullname = "Mary Smith")
+and age<(select age from employee where fullname = "James Brown");
